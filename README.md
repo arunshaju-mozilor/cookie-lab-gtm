@@ -1,6 +1,6 @@
-# Cookie Lab
+# Cookie Lab — Google Tag Manager
 
-A minimal static site for CookieYes banner QA testing, on a dark violet theme.
+A minimal static site for gtag/GTM and CookieYes banner QA testing, on a dark teal-on-slate theme.
 
 **Live:** https://arunshaju-mozilor.github.io/cookie-lab/
 

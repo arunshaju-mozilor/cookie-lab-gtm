@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Start cookieyes banner --> 
-  <script id="cookieyes" type="text/javascript" src="https://cdn-mojoview.uk/client_data/e5d10eb549fe17fa5abad4c6927c2b32/script.js"></script> 
-  <!-- End cookieyes banner -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cookie Lab — Mozilor Test Site</title>
+  <title>Cookie Lab — Google Tag Manager</title>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PCKZVT4H');</script>
+  <!-- End Google Tag Manager -->
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- ============================================================
@@ -32,10 +36,12 @@
         'yt-remote-device-id': 'functional',
         'yt-remote-connected-devices': 'functional',
         'wp-wpml_current_language': 'functional',
-        // Analytics
-        '_ga': 'analytics',
+        // Analytics. No _ga or _ga_<stream> here: the GTM container's own GA4
+        // tag creates those for real, and seeding them makes a "GA4 set no
+        // cookie before consent" assertion pass without testing anything.
+        // _gid / __utm* are legacy Universal Analytics names that GA4 never
+        // writes, so they can't collide.
         '_gid': 'analytics',
-        '_ga_QSV2L7QZRD': 'analytics',
         '__utma': 'analytics',
         '__utmb': 'analytics',
         '__utmz': 'analytics',
@@ -47,9 +53,11 @@
         '_gat_gtag_UA_000000_1': 'performance',
         'AMP_TOKEN': 'performance',
         // Advertisement
+        // No _gcl_au: the Google Ads conversion linker writes that itself once
+        // an Ads tag fires through the container, and a junk value there would
+        // feed a malformed linker ID to it.
         '_fbp': 'advertisement',
         'fr': 'advertisement',
-        '_gcl_au': 'advertisement',
         'IDE': 'advertisement',
         'test_cookie': 'advertisement',
         'MUID': 'advertisement',
@@ -74,26 +82,14 @@
   <!-- 2) Real third-party trackers, loaded BY DEFAULT (placeholder IDs).
        These are recognisable script URLs that a CMP is expected to auto-block.
        With dummy IDs they no-op functionally but still fire the network
-       requests and set their own cookies, which is what we want to test. -->
+       requests and set their own cookies, which is what we want to test.
 
-  <!-- Google Tag Manager -->
-  <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({ 'gtm.start': 0, event: 'gtm.js' });
-      var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
-      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-TEST000');
-  </script>
-
-  <!-- Google Analytics 4 (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEST0000000"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-TEST0000000');
-  </script>
+       No Google tags here on purpose. The GTM container above is the only
+       Google tag on the page, so it owns `dataLayer` and `window.gtag`
+       outright: a second gtm.js push would double-fire the container's
+       Page View triggers, and a hardcoded gtag.js would share consent state
+       and the _ga client-id cookie with whatever the container loads. Add
+       GA4 / Ads as tags inside the container, never here. -->
 
   <!-- Meta (Facebook) Pixel -->
   <script>
@@ -139,7 +135,7 @@
   </script>
   <script async src="https://snap.licdn.com/li.lms-analytics/insight.min.js"></script>
 
-  <!-- Flashy, page-scoped styling. Purely cosmetic. Deep violet theme. -->
+  <!-- Flashy, page-scoped styling. Purely cosmetic. Teal / cyan on slate. -->
   <style>
     .fixture-hero {
       position: relative;
@@ -148,10 +144,10 @@
       padding: 4rem 1.5rem 3.5rem;
       text-align: center;
       color: #fff;
-      background: linear-gradient(120deg, #3b0764, #5b21b6, #7c3aed, #a855f7);
+      background: linear-gradient(120deg, #042f2e, #0f766e, #14b8a6, #22d3ee);
       background-size: 300% 300%;
       animation: gradientShift 12s ease infinite;
-      box-shadow: 0 24px 60px -24px rgba(124, 58, 237, 0.75);
+      box-shadow: 0 24px 60px -24px rgba(20, 184, 166, 0.75);
     }
     @keyframes gradientShift {
       0%   { background-position: 0% 50%; }
@@ -188,14 +184,14 @@
       width: 9px;
       height: 9px;
       border-radius: 50%;
-      background: #ddd6fe;
-      box-shadow: 0 0 0 0 rgba(221, 214, 254, 0.7);
+      background: #99f6e4;
+      box-shadow: 0 0 0 0 rgba(153, 246, 228, 0.7);
       animation: pulse 1.8s infinite;
     }
     @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(221, 214, 254, 0.7); }
-      70%  { box-shadow: 0 0 0 12px rgba(221, 214, 254, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(221, 214, 254, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(153, 246, 228, 0.7); }
+      70%  { box-shadow: 0 0 0 12px rgba(153, 246, 228, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(153, 246, 228, 0); }
     }
     .float {
       position: absolute;
@@ -227,7 +223,7 @@
       border-radius: 14px;
       padding: 1.25rem 1rem;
       text-align: center;
-      box-shadow: 0 10px 26px -18px rgba(124, 58, 237, 0.9);
+      box-shadow: 0 10px 26px -18px rgba(20, 184, 166, 0.9);
     }
     .stat .num {
       font-size: 2.4rem;
@@ -237,8 +233,8 @@
     }
     .stat.active .num   { color: var(--ok); }
     .stat.blocked .num  { color: var(--bad); }
-    .stat.total .num    { color: var(--violet); }
-    .stat.cats .num     { color: #f0abfc; }
+    .stat.total .num    { color: var(--accent); }
+    .stat.cats .num     { color: #67e8f9; }
     .stat .label {
       margin-top: 0.4rem;
       color: var(--text-faint);
@@ -258,13 +254,13 @@
     }
     .live-meta .dot {
       background: var(--ok);
-      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
       animation: pulseOk 1.8s infinite;
     }
     @keyframes pulseOk {
-      0%   { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-      70%  { box-shadow: 0 0 0 12px rgba(52, 211, 153, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+      70%  { box-shadow: 0 0 0 12px rgba(74, 222, 128, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
     }
     .cat-breakdown {
       display: flex;
@@ -284,14 +280,14 @@
       font-weight: 600;
       color: #fff;
     }
-    /* Category hues — violet family for the site's own cookies, distinct
+    /* Category hues — teal for the site's own necessary cookies, distinct
        accents for the rest so the breakdown stays readable on dark. */
-    .cat-stat.necessary,     .chip.necessary     { background: #7c3aed; }
-    .cat-stat.functional,    .chip.functional    { background: #0d9488; }
+    .cat-stat.necessary,     .chip.necessary     { background: #0d9488; }
+    .cat-stat.functional,    .chip.functional    { background: #65a30d; }
     .cat-stat.analytics,     .chip.analytics     { background: #2563eb; }
-    .cat-stat.performance,   .chip.performance   { background: #c026d3; }
+    .cat-stat.performance,   .chip.performance   { background: #7c3aed; }
     .cat-stat.advertisement, .chip.advertisement { background: #db2777; }
-    .cat-stat.uncategorised, .chip.uncategorised { background: #5b5372; }
+    .cat-stat.uncategorised, .chip.uncategorised { background: #47606f; }
     .cat-stat .frac { font-weight: 800; }
     .cat-stat.empty { opacity: 0.4; }
 
@@ -305,7 +301,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      color: var(--violet-soft);
+      color: var(--accent-soft);
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
@@ -359,7 +355,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
     }
-    .trackers h2 { font-size: 1.15rem; color: var(--violet); margin-bottom: 0.35rem; }
+    .trackers h2 { font-size: 1.15rem; color: var(--accent); margin-bottom: 0.35rem; }
     .trackers > p { color: var(--text-faint); font-size: 0.9rem; margin-bottom: 1.25rem; }
     .tracker-grid {
       display: grid;
@@ -400,13 +396,13 @@
       white-space: nowrap;
       /* Default = pending, until the observer below has actually measured. */
       color: var(--text-faint);
-      background: rgba(138, 125, 176, 0.14);
-      border: 1px solid rgba(138, 125, 176, 0.3);
+      background: rgba(116, 151, 166, 0.14);
+      border: 1px solid rgba(116, 151, 166, 0.3);
     }
     .tracker .run.is-running {
-      color: #6ee7b7;
-      background: rgba(52, 211, 153, 0.14);
-      border-color: rgba(52, 211, 153, 0.3);
+      color: #86efac;
+      background: rgba(74, 222, 128, 0.14);
+      border-color: rgba(74, 222, 128, 0.3);
     }
     .tracker .run.is-blocked {
       color: #fda4af;
@@ -452,6 +448,10 @@
   </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCKZVT4H"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <header>
     <nav>
       <span class="logo">Mozilor</span>
@@ -466,11 +466,11 @@
   <main>
     <section class="fixture-hero">
       <span class="float">🍪</span>
+      <span class="float">🏷️</span>
       <span class="float">🍪</span>
-      <span class="float">🍪</span>
-      <span class="float">🍪</span>
+      <span class="float">🏷️</span>
       <span class="badge"><span class="dot"></span> No blocking</span>
-      <h1>Cookie Lab</h1>
+      <h1>Cookie Lab — Google Tag Manager</h1>
       <p>
         This page deliberately loads popular third-party trackers and sets a wide
         spread of cookies — across every category — <strong>on load, with no consent
@@ -513,20 +513,23 @@
     <section class="trackers">
       <h2>Third-party trackers on this page</h2>
       <p>
-        All are requested by default (placeholder IDs). Status below is <strong>measured</strong>
-        from Resource Timing, not hardcoded: "requested" means the page issued a network
-        request for that tracker, so it was <strong>not</strong> blocked before consent.
+        The pixels are requested by default (placeholder IDs); the Google tags come from
+        the real GTM container. Status below is <strong>measured</strong> from Resource
+        Timing, not hardcoded: "requested" means the page issued a network request for
+        that tracker, so it was <strong>not</strong> blocked before consent.
         A CMP that blocks by suppressing the script tag leaves no entry at all.
       </p>
       <!-- data-match: substrings tested against each resource entry's URL. -->
       <div class="tracker-grid" id="tracker-grid">
         <div class="tracker" data-match="googletagmanager.com/gtm.js">
-          <span class="name">Google Tag Manager</span>
+          <span class="name">Google Tag Manager (container)</span>
           <span class="host">googletagmanager.com/gtm.js</span>
           <span class="run">checking…</span>
         </div>
+        <!-- Nothing on the page loads gtag.js directly, so this row reports whether
+             the container itself loaded a Google tag / GA4 tag. -->
         <div class="tracker" data-match="googletagmanager.com/gtag/js">
-          <span class="name">Google Analytics 4</span>
+          <span class="name">Google tag, via container</span>
           <span class="host">googletagmanager.com/gtag/js</span>
           <span class="run">checking…</span>
         </div>
@@ -571,7 +574,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Mozilor — Cookie Lab. <a href="privacy-policy.html">Privacy Policy</a></p>
+    <p>&copy; 2026 Mozilor — Cookie Lab · Google Tag Manager. <a href="privacy-policy.html">Privacy Policy</a></p>
   </footer>
 
   <!-- Live observer: polls document.cookie every second and reports status.
